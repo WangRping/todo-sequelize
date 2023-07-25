@@ -21,6 +21,13 @@ app.get('/', (req, res) => {
     .catch(error => res.status(422).json(error))
 })
 
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id
+  Todo.findByPk(id)
+    .then(todo => res.render('detail', { todo: todo.toJSON() }))
+    .catch(err => console.log(err))
+})
+
 app.get('/users/login', (req, res) => {
   res.render('login')
 })
