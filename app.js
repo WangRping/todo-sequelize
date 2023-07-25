@@ -16,7 +16,9 @@ app.use(methodOverride('_method'))
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-  res.send('hello world')
+  Todo.findAll({ raw: true, nest: true })
+    .then(todos => res.render('index', { todos }))
+    .catch(error => res.status(422).json(error))
 })
 
 app.get('/users/login', (req, res) => {
