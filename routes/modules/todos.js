@@ -30,8 +30,8 @@ router.get('/:id/edit', (req, res) => {
 })
 
 router.post('/:id/edit', (req, res) => {
-  const id = req.params.id;
-  const UserId = req.user.id;
+  const id = req.params.id
+  const UserId = req.user.id
   const { name, isDone } = req.body;
   Todo.findOne({ where: { id, UserId } })
     .then(todo => {
@@ -40,8 +40,16 @@ router.post('/:id/edit', (req, res) => {
       return todo.save()
     })
     .then(() => res.redirect(`/`))
-    .catch(err => console.log(err));
-});
+    .catch(err => console.log(err))
+})
 
+router.post('/:id/delete', (req, res) => {
+  const UserId = req.user.id
+  const id = req.params.id
+  Todo.findOne({ where: { UserId, id } })
+    .then(todo => todo.destroy())
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
+})
 
 module.exports = router
